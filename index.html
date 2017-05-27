@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="keywords" content="Alex Shoucri, JavaScript, Tic Tac Toe, jQuery">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Tic Tac Toe Game</title>
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        <link href="https://fonts.googleapis.com/css?family=Fredericka+the+Great|Poiret+One|Rajdhani:500" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+    <body>
+        <div id="container">
+            <div class="setup">
+                <p>Pick your symbol</p>
+                <div><i class="fa fa-times fa-3x"></i><i class="fa fa-circle-o fa-3x"></i></div>
+            </div>
+            <div id="turn"><p></p></div>
+            <div id="reset">
+                <p>Play again?<br><span rematch="yes">Yes</span><span rematch="no">No</span></p>
+            </div>
+            <div id="grid">
+                <div class="row">
+                    <div id="one" class="box corner"><span symbol="empty"></span></div>
+                    <div id="two" class="box side"><span symbol="empty"></span></div>
+                    <div id="three" class="box corner"><span symbol="empty"></span></div>
+                </div>
+                <div class="row">
+                    <div id="four" class="box side"><span symbol="empty"></span></div>
+                    <div id="five" class="box center"><span symbol="empty"></span></div>
+                    <div id="six" class="box side"><span symbol="empty"></span></div>
+                </div>               
+                <div class="row">
+                    <div id="seven" class="box corner"><span symbol="empty"></span></div>
+                    <div id="eight" class="box side"><span symbol="empty"></span></div>
+                    <div id="nine" class="box corner"><span symbol="empty"></span></div>
+                </div>
+            </div>
+            <div id="score">
+                <p><span score="user">Player: 0</span><span score="comp">Hubert: 0</span></p>
+            </div>             
+        </div>
+        <footer><div>alex.shoucri.2017</div></footer>
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script src="script.js"></script>
+    </body>
+</html>
