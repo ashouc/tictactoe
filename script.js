@@ -1,7 +1,31 @@
 $(document).ready(settingUpGame);
 
-var hubertMoves = 0; var playerMoves = 0; var hubertScore = 0; var playerScore = 0; var hubertID; var playerID;
+var hubertMoves = 0; var playerMoves = 0; var hubertScore = 0; var playerScore = 0; 
+var hubertID; var playerID;
 var $location = $('#grid .row .box');
+
+// Identifying symbol to currPlayer & AI and who begins 
+function settingUpGame() {
+	var times = '<i class="fa fa-times fa-3x"></i>';
+	var circle = '<i class="fa fa-circle-o fa-3x"></i>';
+	// currPlayer chooses symbol at the begining of game
+	$('.setup').one("click", function(event) {
+		$('div.setup').css('display','none');
+		playerID = event.target.outerHTML;
+		if(playerID === times) {
+			hubertID = circle;
+		} else if(playerID === circle) {
+			hubertID = times;
+		}
+		// Dedicing who start first
+		if(Math.random() < 0.5) {
+			currPlayer(playerID);
+		} else {
+			hubert(hubertID);
+			currPlayer(playerID);		
+		}
+	});	
+}
 
 function keepingScore(player){
 	if(player === 'comp') {
@@ -28,7 +52,6 @@ function rematchGame(winner){
 		hubertMoves = 0;	
 		playerMoves = 0;
 		$('#reset').css('display','none');
-		// $('#grid').css('padding-top','200px');
 		// Reset what is on the grid
 		$location.off();
 		$('#grid .row .box span').attr('symbol','empty').html('');
@@ -75,49 +98,26 @@ function whosTurnItIs(turn) {
 	$('#turn').css({
 		display: 'block',
 		height: '200px',
-		fontSize: '32px',
+		fontSize: '50px',
 		paddingTop: '50px'
 	});
+
 	if(turn === playerID) {
-		$('#turn p').html(`It is <em>your </em> turn to play...`);
+		$('#turn p').html(`It is <em>your </em> turn to play...`).css('font-family',"'Poiret One', cursive");
 	}
 	if(turn === hubertID) {
-		$('#turn p').html("It is Hubert's turn to play...");
+		$('#turn p').html("It is Hubert's turn to play...").css('font-family',"'Poiret One', cursive");
 	}
-}
-
-// Identifying symbol to currPlayer & AI and who begins 
-function settingUpGame() {
-	var times = '<i class="fa fa-times fa-3x"></i>';
-	var circle = '<i class="fa fa-circle-o fa-3x"></i>';
-	// currPlayer chooses symbol at the begining of game
-	$('.setup').one("click", function(event) {
-		$('div.setup').css('display','none');
-		playerID = event.target.outerHTML;
-		if(playerID === times) {
-			hubertID = circle;
-		} else if(playerID === circle) {
-			hubertID = times;
-		}
-		// Dedicing who start first
-		if(getRandomNum(0,1) == 1) {
-			currPlayer(playerID);
-		} else {
-			hubert(hubertID);
-			currPlayer(playerID);
-		}
-	});	
 }
 
 // User turn
 function currPlayer(symbol) {
 	whosTurnItIs(symbol);
-	console.log($location);
-	$location.one("click", function(event) {
-		countNumberOfMoves('user');
+	$location.one("click", function(event) {		
 		var boxId = 'div#' + event.target.id + ' span';
 		$(boxId).html(symbol);
 		$(boxId).attr('symbol', 'user');
+		countNumberOfMoves('user');
 		if(winningCombinations('user')) {
 			keepingScore('user');
 			$('#turn p').html(`You won!!`).css({
@@ -153,8 +153,6 @@ function currPlayer(symbol) {
 // Getting AI position for turn
 function hubert(symbol) {
 	whosTurnItIs(symbol);
-	console.log('huberts turn starts');
-	console.log(symbol);
 	var boxId;
 	// Computer may pick any position in the grid, as long as 'symbol' has the 'empty' attribute
 	var position = getRandomNum(1,9);
@@ -196,7 +194,6 @@ function hubert(symbol) {
 	if(winningCombinations('comp')) {
 		keepingScore('comp');
 		rematchGame('comp');
-		console.log('Hubert wins');
 		return;
 	}
 	if(isTieGame()){
@@ -241,10 +238,7 @@ function winningCombinations(player) {
 
 function isTieGame() {
 	if(playerMoves + hubertMoves === 9 && !winningCombinations('user') && !winningCombinations('comp')) {
-		$('#container').css({
-			backgroundColor: 'rgba(5,5,5,0.5)',
-			zIndex: '10'
-		});
+		return true;
 	}
 }
 
@@ -260,5 +254,6 @@ function countNumberOfMoves(turn) {
 
 // Get random position
 function getRandomNum(min, max) {
+	
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
